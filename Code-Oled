@@ -1,0 +1,22 @@
+$sudo apt-get install python3-imaging
+
+from luma.core.interface.serial import i2c
+from luma.core.render import canvas
+from luma.oled.device import ssd1306, ssd1325, ssd1331, sh1106
+from time import sleep
+import socket
+
+#decodigo.com
+
+serial = i2c(port=1, address=0x3C)
+#device = ssd1306(serial, rotate=0)
+device = sh1106(serial, width=128, height=64, rotate=0)
+
+#device.capabilities(width=128, height=64, rotate=0)
+print("size: " , device.bounding_box)
+device.clear()
+with canvas(device) as draw:
+    draw.rectangle(device.bounding_box, outline="white", fill="black")
+    draw.text((10, 10), "Hola Mundo!", fill="white")
+    draw.text((10, 20), "decodigo.com", fill="white")
+sleep(20)
